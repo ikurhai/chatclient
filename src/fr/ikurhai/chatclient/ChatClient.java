@@ -55,6 +55,7 @@ public class ChatClient {
 
 		PrintWriter out;  
 		BufferedReader in;
+		String serverName;
 
 		try {
 			
@@ -73,19 +74,19 @@ public class ChatClient {
 			out.println(name);
 			out.flush();
 
+			// Récupération de la réponse du serveur
+			serverName = in.readLine();
+			System.out.println("You are now connected on " + serverName + ".");
+			
 			// Récupération du MOTD du serveur (Message Of The Day pour les incultes :p)
-			System.out.println("You are now connected on " + in.readLine() + ".");
 			System.out.println("MOTD> " + in.readLine());
 			
 			// Création du processus gérant l'envoi de données vers le serveur
-			new SenderThread(out).start();
-
+			SenderThread senderThread = new SenderThread(out);
 			
-			/* Ancien code de déconnexion
-			System.out.println("Disconnection...");
-			socket.close();
+			senderThread.start();
 
-			System.out.println("Disconnected!");*/
+			while(true){}			
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -93,6 +94,16 @@ public class ChatClient {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private void disconnect() {
+		System.out.println("Disconnection...");
+		try {
+			socket.close();
+			System.out.println("Disconnected!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

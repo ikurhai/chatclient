@@ -21,6 +21,7 @@ public class SenderThread extends Thread {
 	 * @param out Flux de sortie vers le serveur
 	 */
 	public SenderThread(PrintWriter out) {
+		super();
 		this.out = out;
 	}
 	
