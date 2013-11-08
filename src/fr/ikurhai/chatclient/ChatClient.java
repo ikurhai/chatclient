@@ -38,7 +38,7 @@ public class ChatClient {
 		System.out.print("Enter name: ");	
 		this.name = s.nextLine();
 
-		System.out.print("Enter adress: ");	
+		System.out.print("Enter address: ");	
 		this.address = s.nextLine();
 
 		System.out.print("Enter port: ");	
@@ -78,7 +78,7 @@ public class ChatClient {
 			System.out.println("MOTD> " + in.readLine());
 			
 			// Création du processus gérant l'envoi de données vers le serveur
-			new SenderThread(out);
+			new SenderThread(out).start();
 
 			
 			/* Ancien code de déconnexion
