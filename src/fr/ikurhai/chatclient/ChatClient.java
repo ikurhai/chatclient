@@ -20,6 +20,7 @@ public class ChatClient {
 	private Socket socket;
 	private String address;
 	private int port;
+	private String name;
 	private Scanner s;
 
 
@@ -31,6 +32,9 @@ public class ChatClient {
 		this.s = new Scanner(System.in);
 
 		System.out.println("- ChatClient -");
+
+		System.out.print("Enter name: ");	
+		this.name = s.nextLine();
 
 		System.out.print("Enter adress: ");	
 		this.address = s.nextLine();
@@ -58,11 +62,14 @@ public class ChatClient {
 			System.out.println("Connected!");
 
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out = new PrintWriter(socket.getOutputStream());			
+			out = new PrintWriter(socket.getOutputStream());	
+			s = new Scanner(System.in);
+			
+			out.println(name);
+			out.flush();
 
 			// MOTD
-			message = in.readLine();
-			System.out.println(message);
+			System.out.println("MOTD> " + in.readLine());
 			
 			do {
 				System.out.print("> ");
