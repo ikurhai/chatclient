@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Classe client du chat
  * 
  * @author ikurhai
- * @version 0.2
+ * @version 0.3
  */
 public class ChatClient {
 
@@ -28,6 +28,8 @@ public class ChatClient {
 	 * Constucteur par défaut
 	 */
 	public ChatClient() {
+		
+		// Paramétrage des différents attributs du client
 
 		this.s = new Scanner(System.in);
 
@@ -53,37 +55,37 @@ public class ChatClient {
 
 		PrintWriter out;  
 		BufferedReader in;
-		String message;
 
 		try {
-
+			
+			// Tentative de connexion au serveur renseigné dans les attributs
 			System.out.println("Connection to " + address + " at " + port + "...");
 			socket = new Socket(address, port);
 
 			System.out.println("Connected!");
 
+			// Une fois connecté au serveur, on crée le buffer de lecture des données envoyées par le serveur
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			// Et on crée le flux d'envoi de données vers le serveur
 			out = new PrintWriter(socket.getOutputStream());	
-			s = new Scanner(System.in);
 			
+			// Envoi du nom du client qui se connecte
 			out.println(name);
 			out.flush();
 
-			// MOTD
+			// Récupération du MOTD du serveur (Message Of The Day pour les incultes :p)
 			System.out.println("You are now connected on " + in.readLine() + ".");
 			System.out.println("MOTD> " + in.readLine());
 			
-			do {
-				System.out.print("> ");
-				message = s.nextLine();
-				out.println(message);
-				out.flush();
-			} while (!message.equals("/quit"));
+			// Création du processus gérant l'envoi de données vers le serveur
+			new SenderThread(out);
 
+			
+			/* Ancien code de déconnexion
 			System.out.println("Disconnection...");
 			socket.close();
 
-			System.out.println("Disconnected!");
+			System.out.println("Disconnected!");*/
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
