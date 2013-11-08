@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Classe client du chat
  * 
  * @author ikurhai
- * @version 0.1
+ * @version 0.2
  */
 public class ChatClient {
 
@@ -41,6 +41,7 @@ public class ChatClient {
 
 		System.out.print("Enter port: ");	
 		this.port = s.nextInt();
+		s.nextLine();
 
 	}
 
@@ -69,6 +70,7 @@ public class ChatClient {
 			out.flush();
 
 			// MOTD
+			System.out.println("You are now connected on " + in.readLine() + ".");
 			System.out.println("MOTD> " + in.readLine());
 			
 			do {
